@@ -138,8 +138,8 @@ class FluidMode(ue.GameModeBase):
             for index, wader in enumerate(self.waders):
                 wader.dress(quinn=index % 2 == 1, tint=TINTS[index % len(TINTS)])
             self.dressed = True
-        if not self.running or delta_seconds < 1.0e-3:
-            return  # (a recording holds the game with 10 microsecond frames while it writes a shot)
+        if not self.running:
+            return
         started = time.perf_counter()
         # Last frame's results (copied to the host while the GPU went on), then this frame's step: the game
         # thread never waits for the kernels it has just launched.

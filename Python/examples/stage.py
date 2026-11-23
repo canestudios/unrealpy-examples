@@ -521,18 +521,23 @@ async def record(
         old.unlink()
     count = round(seconds * fps)
     started = time.perf_counter()
-    # Each clip frame: one engine frame of exactly one clip step, then the shot, written while the game
-    # barely moves (a fixed time step of 10 microseconds), so every shot is one clip step after the last
-    # however long the 1080p PNG takes.
+    # Each clip frame: one engine frame of exactly one clip step, then the shot, written while the game is
+    # paused (it renders, nothing moves), so every shot is one clip step after the last however long the
+    # 1080p PNG takes. Paused, not slowed down: frames of a few microseconds made physics unstable (a
+    # ragdoll's joint solver turned its corrections into huge velocities and flung the limbs apart).
     step = game_speed / fps
+    world = ue.get_world()
+    agent.set_fixed_timestep(step)
     try:
         for index in range(count):
-            agent.set_fixed_timestep(step)
             await agent.frames(1)
             if on_step is not None:
                 on_step(step)
-            agent.set_fixed_timestep(1e-5)
-            await film.shoot(folder / f"frame_{index:05d}.png")
+            ue.GameplayStatics.set_game_paused(True, world_context_object=world)
+            try:
+                await film.shoot(folder / f"frame_{index:05d}.png")
+            finally:
+                ue.GameplayStatics.set_game_paused(False, world_context_object=world)
     finally:
         agent.set_fixed_timestep(None)
     return {
