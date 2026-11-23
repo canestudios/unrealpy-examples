@@ -1,0 +1,68 @@
+[project]
+name = "unrealpy-examples"
+version = "0.1.0"
+description = "Runtime examples for UnrealPy: the Python ecosystem inside Unreal Engine games"
+# Unreal Engine 5.8 embeds CPython 3.11: the packages must be built for it.
+requires-python = "==3.11.*"
+dependencies = [
+    "numpy==2.4.6",
+]
+
+# One group per example, so nobody downloads what they do not run. In a project, add the group's packages to
+# the project's own pyproject.toml (see README.md): UnrealPy installs them for the editor and
+# `unrealpy package --group <name>` ships them in a packaged game.
+[dependency-groups]
+# security_camera: computer vision on the game's own camera.
+vision = [
+    "opencv-python-headless==5.1.0.95",
+]
+# learning_enemies: a small network trained while the game runs (the CPU build of torch).
+learning = [
+    "torch==2.14.1",
+]
+# live_analytics: playtest telemetry summarised and drawn in-game.
+analytics = [
+    "pandas==3.1.1",
+    "matplotlib==3.11.2",
+]
+# fluid: GPU kernels written in Python.
+fluid = [
+    "warp-lang==1.19.0",
+]
+# The demo scripts outside the engine: title cards and banners for the clips.
+media = [
+    "matplotlib==3.11.2",
+]
+test = [
+    "pytest==9.2.0",
+]
+dev = [
+    { include-group = "test" },
+    { include-group = "media" },
+    "ruff==0.17.5",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["Python"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ue", "examples"]
