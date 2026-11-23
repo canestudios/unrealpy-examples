@@ -10,7 +10,6 @@ well-known Python package **while the game runs**, in Play In Editor and in a pa
 | [Enemies that learn](Python/examples/learning_enemies/README.md) | PyTorch | Drones trained by a small network while you play: within a minute they dodge |
 | [Live playtest analytics](Python/examples/live_analytics/README.md) | pandas + matplotlib + NumPy | Autopiloted playtesters run a level; heatmaps and charts show where they walk and die |
 | [GPU fluid](Python/examples/fluid/README.md) | NVIDIA Warp | A fluid simulated by Python GPU kernels, pushing mannequins around a tank |
-| [AI textures](Python/examples/ai_texture/README.md) | PyTorch + diffusers | An open-weight image model makes seamless textures from a prompt, in the editor |
 
 | OpenCV | PyTorch |
 |---|---|
@@ -50,7 +49,6 @@ For a complete game written with UnrealPy, see [unrealpy-freedoom](https://githu
    | learning_enemies | `learning` | `torch` (the CPU build, from the PyTorch index: copy `[tool.uv.sources]` and `[[tool.uv.index]]` too) |
    | live_analytics | `analytics` | `pandas`, `matplotlib` |
    | fluid | `fluid` | `warp-lang` |
-   | ai_texture | its own environment: see its README | `torch` (CUDA), `diffusers`, `transformers` |
 
        uv sync --group vision                 # for example
 
@@ -107,11 +105,9 @@ The examples are code; the packages they use keep their own licences:
 |---|---|---|
 | NumPy | BSD-3-Clause | all |
 | `opencv-python-headless` (OpenCV) | Apache-2.0 (the wheel bundles FFmpeg, LGPL-2.1) | security_camera |
-| PyTorch (`torch`) | BSD-3-Clause | learning_enemies, ai_texture |
+| PyTorch (`torch`) | BSD-3-Clause | learning_enemies |
 | pandas | BSD-3-Clause | live_analytics |
 | matplotlib | matplotlib licence (PSF-style, permissive) | live_analytics, the demo scripts |
 | NVIDIA Warp (`warp-lang`) | Apache-2.0 | fluid |
-| `diffusers`, `transformers`, `accelerate`, `peft`, `safetensors`, `huggingface-hub` | Apache-2.0 | ai_texture |
-| the AI texture model's weights | see `Python/examples/ai_texture/README.md` | ai_texture |
 | `imageio-ffmpeg` (ffmpeg binary, demo scripts only) | BSD-2-Clause (wrapper); ffmpeg LGPL/GPL build | the demo scripts |
-| UE5 mannequins (engine template content) | Unreal Engine EULA: usable in Unreal Engine projects; not redistributed here | all but ai_texture |
+| UE5 mannequins (engine template content) | Unreal Engine EULA: usable in Unreal Engine projects; not redistributed here | all |
