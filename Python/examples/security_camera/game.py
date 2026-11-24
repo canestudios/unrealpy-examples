@@ -9,7 +9,7 @@ annotated frame goes back into a texture).
     uv run python Python/examples/security_camera/demo.py          # Play In Editor, clip + screenshot
     unrealpy run --render examples.security_camera.game:demo       # standalone game
     unrealpy run --packaged examples.security_camera.game:demo     # packaged build (--group vision)
-    UnrealEditor.exe <YourProject>.uproject -game -windowed -UnrealPyRun=examples.security_camera.game:play
+    UnrealEditor.exe UnrealPyExamples.uproject -game -windowed -UnrealPyRun=examples.security_camera.game:play
         -UnrealPyKeepAlive                                         # walk in front of the camera yourself
 
 Only /Engine content is used; the scene is built when the game mode starts.

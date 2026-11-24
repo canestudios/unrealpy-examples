@@ -48,9 +48,8 @@ the mannequin material's own parameters (silver, gold, magenta). The repository 
 
 ## Look
 
-Lumen global illumination and reflections (the demo starts the engine with
-`-ini:Engine:[/Script/Engine.RendererSettings]:r.GenerateMeshDistanceFields=True`, which Lumen's software
-tracing needs, for that run only), sky atmosphere, a low warm sun, a sky light with real-time capture,
+Lumen global illumination and reflections (the project's renderer settings turn on the mesh distance
+fields Lumen's software tracing needs), sky atmosphere, a low warm sun, a sky light with real-time capture,
 volumetric height fog (the searchlight's beam), two warm panel lights and a cool rim light; physically based
 materials (pale concrete, wood, metal, a grid floor) and emissive lasers, light strips, beacon and lenses,
 all from engine materials' parameters (`examples/stage.py`); a post-process volume with auto-exposure
@@ -78,7 +77,7 @@ The packaged game (see below) runs the same scenario:
 
 Watch it in a window (WASD and the mouse fly the spectator):
 
-    UnrealEditor.exe <YourProject>.uproject -game -windowed -ResX=1600 -ResY=900 -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
+    UnrealEditor.exe UnrealPyExamples.uproject -game -windowed -ResX=1600 -ResY=900 -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
 
 ## Keeping it at 60 fps
 
@@ -110,9 +109,7 @@ stable ABI and links `python3.dll`, which a packaged game stages only in the eng
 next to the game's executable, so `import cv2` failed with "DLL load failed"; UnrealPy now adds the
 interpreter's home to the DLL search path when it activates the environment.
 
-Size: OpenCV adds 126 MB to the package. A packaged build that runs the examples with Lumen is made with
-`uv run unrealpy package --group vision "--uat-arg=-AdditionalCookerOptions=-ini:Engine:[/Script/Engine.RendererSettings]:r.GenerateMeshDistanceFields=True"`
-(the cooker option cooks the mesh distance fields Lumen traces).
+Size: OpenCV adds 126 MB to the package, made with `uv run unrealpy package --group vision`.
 
 ## Files
 

@@ -92,7 +92,7 @@ package's metadata). It brings its own CUDA compiler (NVRTC, inside `warp.dll`) 
 driver at run time: no CUDA toolkit. Warp adds about 330 MB to the package.
 
 A packaged game stages the project's Python as bytecode, and Warp builds its kernels from their Python
-source (`inspect`), so `sim.py` must ship as source: in `Config/DefaultUnrealPy.ini`,
+source (`inspect`), so `sim.py` ships as source: in `Config/DefaultUnrealPy.ini`,
 
     [/Script/UnrealPyCore.UnrealPySettings]
     +StageSource=examples/fluid/sim.py

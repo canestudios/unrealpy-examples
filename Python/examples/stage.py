@@ -247,7 +247,7 @@ def accent(
 
 
 def lumen_available() -> bool:
-    """Lumen needs mesh distance fields (LUMEN_ARG at startup); without them: screen-space GI."""
+    """Lumen needs mesh distance fields (the project's renderer settings); without them: screen-space GI."""
     return ue.KismetSystemLibrary.get_console_variable_int_value("r.GenerateMeshDistanceFields") == 1
 
 
@@ -557,6 +557,12 @@ Mode = TypeVar("Mode", bound=ue.GameModeBase)
 def max_fps(cap: float) -> None:
     """Cap the frame rate (t.MaxFPS; 0 lifts the cap)."""
     ue.KismetSystemLibrary.execute_console_command(f"t.MaxFPS {cap:g}")
+
+
+def scripted() -> bool:
+    """True when a script drives the game (`unrealpy run`, -UnrealPyRun): the example's showcase starts it at
+    the right moment. Played by hand (the editor's Play, or `play()`), a game starts by itself."""
+    return ue.has_param("UnrealPyRun")
 
 
 def class_path(cls: type[ue.Object]) -> str:

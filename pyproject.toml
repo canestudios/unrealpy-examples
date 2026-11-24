@@ -8,9 +8,8 @@ dependencies = [
     "numpy==2.4.6",
 ]
 
-# One group per example, so nobody downloads what they do not run. In a project, add the group's packages to
-# the project's own pyproject.toml (see README.md): UnrealPy installs them for the editor and
-# `unrealpy package --group <name>` ships them in a packaged game.
+# One group per example, so nobody downloads what they do not run: `uv sync --group <name>` installs one for
+# the editor, `unrealpy package --group <name>` ships it in a packaged game.
 [dependency-groups]
 # security_camera: computer vision on the game's own camera.
 vision = [
@@ -54,12 +53,14 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+# Outside the engine only the unit tests run; Tests/unit/conftest.py loads UnrealPy's engine-less fake of `ue`.
+testpaths = ["Tests/unit"]
 pythonpath = ["Python"]
 
 [tool.ruff]
 target-version = "py311"
 line-length = 110
+src = ["Python", "Plugins/UnrealPy/Content/Python"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]

@@ -186,6 +186,8 @@ class AnalyticsMode(ue.GameModeBase):
         for tester in self.undressed:
             tester.dress(tint=TESTER_TINT)
         self.undressed.clear()
+        if not self.running and not stage.scripted() and self.ready:
+            self.running = True  # played by hand: start once the captions are on
         if not self.running:
             return
         self._play(delta_seconds)

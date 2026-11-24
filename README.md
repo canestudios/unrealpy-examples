@@ -21,55 +21,52 @@ Each clip is the packaged Development build at 1920x1080, recorded by the exampl
 
 For a complete game written with UnrealPy, see [unrealpy-freedoom](https://github.com/canestudios/unrealpy-freedoom).
 
-## Set up a project
+## Requirements
 
-1. **The plugin.** Put the UnrealPy plugin in your project's `Plugins/UnrealPy` folder (from Fab, or a
-   release zip), open the project once, and create its Python environment:
+- Unreal Engine 5.8 (Windows), an NVIDIA GPU for the fluid.
+- The **UnrealPy** plugin and its companion **ScriptCore**, distributed separately: they are not part of this
+  repository (see [Plugins/README.md](Plugins/README.md)).
+- [uv](https://docs.astral.sh/uv/).
 
-       uvx --from ./Plugins/UnrealPy/Tools/unrealpy_cli unrealpy env
+## Set up
 
-   (`uv` from [astral.sh/uv](https://docs.astral.sh/uv/)). This makes `.venv` with the engine's own Python
-   3.11 and a `pyproject.toml` for the project.
-
-2. **The examples.** Copy this repository's `Python/examples` folder into your project's `Python` folder,
-   and tell UnrealPy to load the examples' classes at startup, in `Config/DefaultUnrealPy.ini`:
-
-       [/Script/UnrealPyCore.UnrealPySettings]
-       +ClassPackages=examples
-       ; the fluid's kernels: NVIDIA Warp reads their source, so a packaged game ships it as source
-       +StageSource=examples/fluid/sim.py
-
-3. **The packages, per example.** Each example needs only its own packages. Add them to your project's
-   `pyproject.toml` as a dependency group of the same name (copy it from this repository's
-   [`pyproject.toml`](pyproject.toml)), then sync:
+1. Clone this repository; it is an Unreal project, `UnrealPyExamples.uproject`.
+2. Copy the plugins into `Plugins/`: `Plugins/UnrealPy` and `Plugins/ScriptCore`.
+3. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
 
    | Example | Group | Packages |
    |---|---|---|
    | security_camera | `vision` | `opencv-python-headless` |
-   | learning_enemies | `learning` | `torch` (the CPU build, from the PyTorch index: copy `[tool.uv.sources]` and `[[tool.uv.index]]` too) |
+   | learning_enemies | `learning` | `torch` (the CPU build, from the PyTorch index) |
    | live_analytics | `analytics` | `pandas`, `matplotlib` |
    | fluid | `fluid` | `warp-lang` |
 
-       uv sync --group vision                 # for example
+       uv sync --group vision          # or --group learning, --group analytics, --group fluid; several at once work
 
-   The demo scripts also use `matplotlib` outside the engine for their title cards, and ffmpeg from the
-   `imageio-ffmpeg` wheel (fetched by uv on demand).
+   The project's `.venv` is UnrealPy's environment: the editor and the packaged game use it.
+4. Open `UnrealPyExamples.uproject`. The first start builds the plugins for your engine if they need it, and
+   writes the `ue` type stubs.
 
-4. **Assets.** No example ships Unreal assets. The characters are Epic's mannequins, copied from the engine's
-   own third-person template the first time a demo runs (`Python/examples/mannequins.py`); add their folder
-   to the cooked directories for packaged builds, in `Config/DefaultGame.ini`:
-
-       [/Script/UnrealEd.ProjectPackagingSettings]
-       +DirectoriesToAlwaysCook=(Path="/Game/Characters/Mannequins")
-       +DirectoriesToAlwaysCook=(Path="/Game/Fluid")
-
-   The fluid's particle material is built by a script (`Python/examples/fluid/assets.py`) into
-   `Content/Fluid`.
+The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
+(`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
+turns on Lumen and the mesh distance fields it traces; `Config/DefaultGame.ini` cooks the folders the examples
+fill at their first run: Epic's mannequins, copied from the engine's own third-person template
+(`Python/examples/mannequins.py`; the repository ships no Unreal assets), and the fluid's materials
+(`Python/examples/fluid/assets.py`).
 
 ## Run an example
 
-Each example has one command that plays it in a headless editor (no window) and saves a clip and a
-screenshot, run from the project folder:
+**Play it.** Open the project, then in the editor's Python console run the example's `play` function; it
+reopens the level with the example's game mode, and the example starts by itself:
+
+    import examples.fluid.game; examples.fluid.game.play([])
+
+(`examples.security_camera.game`, `examples.learning_enemies.game`, `examples.live_analytics.game`,
+`examples.fluid.game`). The fluid needs its materials once: `uv run python Python/examples/fluid/demo.py`
+builds them, or run `examples.fluid.assets.main([])` in the editor.
+
+**Record it.** Each example has one command that plays it in a headless editor (no window) and saves a clip and
+a screenshot under `Saved/`, from the project folder:
 
     uv run python Python/examples/security_camera/demo.py
     uv run python Python/examples/learning_enemies/demo.py
@@ -78,24 +75,21 @@ screenshot, run from the project folder:
 
 and the same in a packaged Development build, after packaging with the example's group:
 
-    uv run unrealpy package --group vision
+    uvx --from ./Plugins/UnrealPy/Tools/unrealpy_cli unrealpy package --group vision
     uv run python Python/examples/security_camera/demo.py --packaged
 
-To play one yourself, open the editor, and in the Python console (or any Python script) run the example's
-`play` function, e.g. `examples.security_camera.game.play([])`; it reopens the level with the example's game
-mode.
+The commands find the plugin's `unrealpy` command line in `Plugins/UnrealPy/Tools/unrealpy_cli` (through
+`uvx`) when the environment does not have it. The demo scripts draw their title cards with `matplotlib`
+(`uv sync --group media`) and encode with ffmpeg from the `imageio-ffmpeg` wheel, which uv fetches on demand.
 
 ## Tests
 
 The examples' engine-free parts (the rules, the summaries, the kernels on Warp's CPU device, the pictures)
-have unit tests, which run on UnrealPy's engine-less fake of the `ue` module:
+have unit tests, which run on UnrealPy's engine-less fake of the `ue` module (from `Plugins/UnrealPy`, with the
+type stubs the editor wrote at its first start):
 
     uv sync --group dev --group vision --group learning --group analytics --group fluid
-    set UNREALPY_PLUGIN=<your project>\Plugins\UnrealPy
     uv run pytest
-
-The fake needs the type database `unrealpy stubs` writes into that project's `Intermediate/PythonStubs`
-(or point `UNREALPY_TYPES` at it).
 
 ## Licences
 

@@ -84,9 +84,8 @@ no Unreal assets: `examples/mannequins.py` copies the mannequin pack from the en
 
 ## Look
 
-Lumen global illumination and reflections (the demo starts the engine with
-`-ini:Engine:[/Script/Engine.RendererSettings]:r.GenerateMeshDistanceFields=True`, which Lumen's software
-tracing needs, for that run only), sky atmosphere, sun, sky light with real-time capture, height fog,
+Lumen global illumination and reflections (the project's renderer settings turn on the mesh distance
+fields Lumen's software tracing needs), sky atmosphere, sun, sky light with real-time capture, height fog,
 floodlights; physically based materials (greybox walls, metal-paint mannequins, grid floors, a metal
 bridge and blade) and emissive hazard stripes, crosses and rings, all from engine materials' parameters
 (`examples/stage.py`); a post-process

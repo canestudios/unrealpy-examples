@@ -20,7 +20,6 @@ from typing import Any
 
 IMAGEIO_FFMPEG = "imageio-ffmpeg==0.6.0"
 # Lumen (software tracing) needs mesh distance fields, a startup setting: this engine argument turns them on.
-LUMEN_ARG = "-ini:Engine:[/Script/Engine.RendererSettings]:r.GenerateMeshDistanceFields=True"
 
 
 def percentile(values: Sequence[float], fraction: float) -> float:
@@ -90,24 +89,27 @@ class PerfMeter:
 # -- running Unreal (outside the engine) ---------------------------------------------------------------------
 
 
-def unrealpy() -> str:
+def unrealpy(project: Path) -> list[str]:
+    """The `unrealpy` command: installed in the environment, else the plugin's own CLI run through uvx."""
     local = Path(sys.executable).with_name("unrealpy.exe" if sys.platform == "win32" else "unrealpy")
     found = str(local) if local.is_file() else shutil.which("unrealpy")
-    if found is None:
-        raise SystemExit("unrealpy not found: run this with `uv run python ...` from the project folder")
-    return found
+    if found is not None:
+        return [found]
+    cli = project / "Plugins" / "UnrealPy" / "Tools" / "unrealpy_cli"
+    uvx = shutil.which("uvx")
+    if uvx is None or not cli.is_dir():
+        raise SystemExit("unrealpy not found: put the UnrealPy plugin in Plugins/, install uv (README.md)")
+    return [uvx, "--from", str(cli), "unrealpy"]
 
 
-def run_unrealpy(arguments: list[str], project: Path, *, lumen: bool = True) -> dict[str, Any]:
+def run_unrealpy(arguments: list[str], project: Path) -> dict[str, Any]:
     """One `unrealpy run`; its JSON report, or exit with the log's errors. Before it: the mannequins are
-    copied from the engine's template if the project lacks them; with `lumen`, the engine starts with mesh
-    distance fields on (LUMEN_ARG), which Lumen's software tracing needs."""
+    copied from the engine's template if the project lacks them."""
     from examples import mannequins
 
     mannequins.install(project.resolve(), mannequins.engine_root())
-    engine = [f"--engine-arg={LUMEN_ARG}"] if lumen else []
     completed = subprocess.run(
-        [unrealpy(), "run", *engine, *arguments],
+        [*unrealpy(project), "run", *arguments],
         cwd=project,
         capture_output=True,
         text=True,

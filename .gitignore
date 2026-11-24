@@ -1,4 +1,32 @@
+# Unreal
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+# Written by packaging (the cooker's file open order, the chunk layers)
+/Build/*/FileOpenOrder/
+/Build/*/ChunkLayerInfo/
+# Per-user editor folders
+/Content/Developers/
+/Content/Collections/
+*.sln
+*.slnx
+.vs/
+.vscode/
+
+# ScriptCore and UnrealPy are distributed separately and installed here; they are not part of this repository
+/Plugins/*
+!/Plugins/README.md
+
+# Made by the examples at their first run: Epic's mannequins (copied from the engine's own template) and the
+# fluid's materials (built by Python/examples/fluid/assets.py)
+/Content/Characters/
+/Content/Fluid/
+
+# Python
 .venv/
-.cache/
 __pycache__/
 *.pyc
+.pytest_cache/
+.ruff_cache/
+.cache/

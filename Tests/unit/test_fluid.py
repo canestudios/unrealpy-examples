@@ -13,7 +13,7 @@ warp = pytest.importorskip("warp")
 
 from examples.fluid import demo, sim  # noqa: E402
 
-CACHE = Path(__file__).resolve().parents[1] / ".cache" / "warp"
+CACHE = Path(__file__).resolve().parents[2] / "Intermediate" / "WarpCache"
 
 
 @pytest.fixture(scope="module")

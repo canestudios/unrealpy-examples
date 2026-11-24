@@ -115,7 +115,7 @@ def ensure_assets(project: Path) -> None:
     if all((folder / f"{name}.uasset").is_file() for name in ("M_FluidParticle", "M_FluidSurface")):
         return
     completed = subprocess.run(
-        [showreel.unrealpy(), "run", "--editor", "examples.fluid.assets:main"],
+        [*showreel.unrealpy(project), "run", "--editor", "examples.fluid.assets:main"],
         cwd=project,
         capture_output=True,
         text=True,

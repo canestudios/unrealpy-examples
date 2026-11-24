@@ -123,7 +123,7 @@ class FluidMode(ue.GameModeBase):
             self.waders.append(wader)
         self.fallen: set[int] = set()
         self.dressed = False
-        self.running = False
+        self.running = not stage.scripted()  # a showcase starts it when its camera is ready
         self.frame_ms: list[float] = []
         self.sim_ms: list[float] = []
         self.last = time.perf_counter()

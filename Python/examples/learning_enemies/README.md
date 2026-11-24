@@ -48,8 +48,8 @@ content to the project's `Content/Characters/Mannequins` the first time a demo r
 
 ## Look
 
-Lumen global illumination and reflections (the demo starts the engine with
-`-ini:Engine:[/Script/Engine.RendererSettings]:r.GenerateMeshDistanceFields=True` for that run only), sky
+Lumen global illumination and reflections (the project's renderer settings turn on the mesh distance
+fields it traces), sky
 atmosphere, a low sun behind the board, a sky light with real-time capture, height fog, four floodlight
 masts; glossy drones with glowing eyes, glowing balls, a cyan ring of light round the arena, metal walls, a
 grid floor, all from engine materials' parameters (`examples/stage.py`); a post-process volume with
@@ -77,7 +77,7 @@ The packaged game (see below) runs the same scenario:
 
 To watch it in a window:
 
-    UnrealEditor.exe <YourProject>.uproject -game -windowed -ResX=1600 -ResY=900 -UnrealPyRun=examples.learning_enemies.game:play -UnrealPyKeepAlive
+    UnrealEditor.exe UnrealPyExamples.uproject -game -windowed -ResX=1600 -ResY=900 -UnrealPyRun=examples.learning_enemies.game:play -UnrealPyKeepAlive
 
 ## Keeping it at 60 fps
 
