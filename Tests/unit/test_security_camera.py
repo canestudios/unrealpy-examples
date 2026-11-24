@@ -198,6 +198,6 @@ def test_ffmpeg_commands() -> None:
     clip = showreel.clip_command("ffmpeg", Path("frames"), 30, Path("out.mp4"))
     assert clip[0] == "ffmpeg" and str(Path("frames") / "frame_%05d.png") in clip
     assert clip[clip.index("-framerate") + 1] == "30" and clip[-1] == "out.mp4"
-    assert "yuv420p" in clip
+    assert "yuv420p" in clip and "trunc(iw/2)*2" in clip[clip.index("-vf") + 1]  # even sizes for yuv420p
     still = showreel.still_command("ffmpeg", Path("a.png"), Path("a.jpg"), width=640)
     assert "scale=640:-2" in still and still[-1] == "a.jpg"

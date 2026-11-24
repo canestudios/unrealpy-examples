@@ -159,7 +159,8 @@ def clip_command(
     ffmpeg: str, frames: Path, fps: int, out: Path, *, crf: int = 22, banner: Path | None = None
 ) -> list[str]:
     """H.264 MP4 from frames/frame_00000.png... (yuv420p: plays everywhere), with `banner` (a PNG with alpha)
-    over the top if given. Unreal pads its exported PNGs after the image end, which ffmpeg reports but
+    over the top if given. yuv420p needs even sizes: an odd frame (a Play In Editor viewport can be one) loses
+    its last row or column. Unreal pads its exported PNGs after the image end, which ffmpeg reports but
     decodes fine: only fatal errors are shown."""
     command = [
         ffmpeg,
@@ -171,8 +172,11 @@ def clip_command(
         "-i",
         str(frames / "frame_%05d.png"),
     ]
+    even = "crop=trunc(iw/2)*2:trunc(ih/2)*2:0:0"
     if banner is not None:
-        command += ["-i", str(banner), "-filter_complex", "[0:v][1:v]overlay=0:0"]
+        command += ["-i", str(banner), "-filter_complex", f"[0:v]{even}[frames];[frames][1:v]overlay=0:0"]
+    else:
+        command += ["-vf", even]
     return [
         *command,
         "-c:v",

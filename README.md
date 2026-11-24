@@ -34,7 +34,9 @@ For a complete game written with UnrealPy, see [unrealpy-freedoom](https://githu
 2. Copy the plugins into `Plugins/`: `Plugins/UnrealPy` and `Plugins/ScriptCore`.
 3. Open `UnrealPyExamples.uproject` once. On that first start UnrealPy creates the project's Python
    environment (`.venv`, with the engine's own Python, from `pyproject.toml` and `uv.lock`; it needs internet
-   once) and the `ue` type stubs.
+   once) and the `ue` type stubs. Without the editor:
+   `uvx --from ./Plugins/UnrealPy/Tools/unrealpy_cli unrealpy env` makes the environment and
+   `... unrealpy stubs` the stubs.
 4. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
 
    | Example | Group | Packages |
@@ -88,7 +90,7 @@ The commands find the plugin's `unrealpy` command line in `Plugins/UnrealPy/Tool
 
 The examples' engine-free parts (the rules, the summaries, the kernels on Warp's CPU device, the pictures)
 have unit tests, which run on UnrealPy's engine-less fake of the `ue` module (from `Plugins/UnrealPy`, with the
-type stubs the editor wrote at its first start):
+type stubs the editor wrote at its first start, or `unrealpy stubs`):
 
     uv sync --group dev --group vision --group learning --group analytics --group fluid
     uv run pytest
