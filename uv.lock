@@ -477,6 +477,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "numpy" },
+    { name = "typing-extensions" },
 ]
 
 [package.dev-dependencies]
@@ -507,7 +508,10 @@ vision = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "numpy", specifier = "==2.4.6" }]
+requires-dist = [
+    { name = "numpy", specifier = "==2.4.6" },
+    { name = "typing-extensions", specifier = "==4.16.0" },
+]
 
 [package.metadata.requires-dev]
 analytics = [

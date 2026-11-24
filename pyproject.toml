@@ -4,8 +4,10 @@ version = "0.1.0"
 description = "Runtime examples for UnrealPy: the Python ecosystem inside Unreal Engine games"
 # Unreal Engine 5.8 embeds CPython 3.11: the packages must be built for it.
 requires-python = "==3.11.*"
+# numpy and typing-extensions: what UnrealPy itself needs in every environment.
 dependencies = [
     "numpy==2.4.6",
+    "typing-extensions==4.16.0",
 ]
 
 # One group per example, so nobody downloads what they do not run: `uv sync --group <name>` installs one for

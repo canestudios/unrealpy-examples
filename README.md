@@ -32,7 +32,10 @@ For a complete game written with UnrealPy, see [unrealpy-freedoom](https://githu
 
 1. Clone this repository; it is an Unreal project, `UnrealPyExamples.uproject`.
 2. Copy the plugins into `Plugins/`: `Plugins/UnrealPy` and `Plugins/ScriptCore`.
-3. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
+3. Open `UnrealPyExamples.uproject` once. On that first start UnrealPy creates the project's Python
+   environment (`.venv`, with the engine's own Python, from `pyproject.toml` and `uv.lock`; it needs internet
+   once) and the `ue` type stubs.
+4. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
 
    | Example | Group | Packages |
    |---|---|---|
@@ -41,11 +44,10 @@ For a complete game written with UnrealPy, see [unrealpy-freedoom](https://githu
    | live_analytics | `analytics` | `pandas`, `matplotlib` |
    | fluid | `fluid` | `warp-lang` |
 
-       uv sync --group vision          # or --group learning, --group analytics, --group fluid; several at once work
+       uv sync --group dev --group vision     # several groups at once work too
 
-   The project's `.venv` is UnrealPy's environment: the editor and the packaged game use it.
-4. Open `UnrealPyExamples.uproject`. The first start builds the plugins for your engine if they need it, and
-   writes the `ue` type stubs.
+   The editor keeps them: it syncs the environment again only when `pyproject.toml` or `uv.lock` change (then
+   run this again).
 
 The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
 (`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
