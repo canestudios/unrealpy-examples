@@ -1,8 +1,6 @@
 # UnrealPy examples
 
-The Python ecosystem inside Unreal Engine games: runtime examples for [UnrealPy](https://unrealpy.canestudios.xyz/),
-the Python scripting plugin for Unreal Engine 5. Every example is gameplay code written in Python that uses a
-well-known Python package **while the game runs**, in Play In Editor and in a packaged build.
+Four Unreal scenes use Python packages during gameplay. Run them in the editor or a packaged Windows game with [UnrealPy](https://unrealpy.canestudios.xyz/).
 
 | Example | Python package | What it does |
 |---|---|---|
@@ -17,24 +15,17 @@ well-known Python package **while the game runs**, in Play In Editor and in a pa
 | **pandas + matplotlib** | **NVIDIA Warp** |
 | ![Live playtest analytics](docs/images/live_analytics.gif) | ![GPU fluid](docs/images/fluid.gif) |
 
-Each clip is the packaged Development build at 1920x1080, recorded by the example's own `demo.py`.
-
-[Watch the packaged examples and follow their recipes](https://unrealpy.canestudios.xyz/docs/examples/packages/). For a complete game, [play Freedoom in a desktop browser](https://canestudios.github.io/unrealpy-freedoom/) or [read the gameplay source](https://github.com/canestudios/unrealpy-freedoom).
+[Watch the packaged examples](https://unrealpy.canestudios.xyz/docs/examples/packages/) or [play a full game written in Python](https://canestudios.github.io/unrealpy-freedoom/).
 
 ## Requirements
 
-- Unreal Engine 5.8 (Windows), an NVIDIA GPU for the fluid.
-- A matching **UnrealPy** installation. The UE 5.8 Fab package includes its ScriptCore modules. For a development build, see [plugin setup](Plugins/README.md).
-- [uv](https://docs.astral.sh/uv/).
+- Windows and Unreal Engine 5.8 with mannequin template content. The fluid scene also needs an NVIDIA GPU.
+- [UnrealPy for UE 5.8](Plugins/README.md) and [uv](https://docs.astral.sh/uv/).
 
 ## Set up
 
-1. Clone this repository; it is an Unreal project, `UnrealPyExamples.uproject`.
-2. Follow the [UnrealPy installation guide](https://unrealpy.canestudios.xyz/docs/getting-started/installation/). The project enables UnrealPy automatically.
-3. Open `UnrealPyExamples.uproject` once. On that first start UnrealPy creates the project's Python
-   environment (`.venv`, with the engine's own Python, from `pyproject.toml` and `uv.lock`; it needs internet
-   once) and the `ue` type stubs. With the CLI on PATH, run `unrealpy env` and `unrealpy stubs` from this project to do this without the editor. To install the CLI on PATH, use `uv tool install "<UnrealPy plugin folder>/Content/Python/Tools/unrealpy_cli"` with the actual Fab installation path. For a development checkout, the CLI is in `<UnrealPy plugin folder>/Tools/unrealpy_cli`.
-4. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
+1. Open `UnrealPyExamples.uproject` with UnrealPy installed. First start needs internet to set up Python. Close the editor when setup finishes.
+2. In the project folder, install the dependency group for the scene you want. For the camera, run `uv sync --group dev --group vision`.
 
    | Example | Group | Packages |
    |---|---|---|
@@ -43,10 +34,9 @@ Each clip is the packaged Development build at 1920x1080, recorded by the exampl
    | live_analytics | `analytics` | `pandas`, `matplotlib` |
    | fluid | `fluid` | `warp-lang` |
 
-       uv sync --group dev --group vision     # several groups at once work too
+If you change `pyproject.toml` or `uv.lock`, run the group sync again.
 
-   The editor keeps them: it syncs the environment again only when `pyproject.toml` or `uv.lock` change (then
-   run this again).
+For headless setup and packaging, [install the command from your copy of UnrealPy](https://unrealpy.canestudios.xyz/docs/reference/cli/#install-the-command). Run `unrealpy env` and `unrealpy stubs` in the project folder if you want to set it up without opening the editor.
 
 The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
 (`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
@@ -79,8 +69,7 @@ and the same in a packaged Development build, after packaging with the example's
     unrealpy package --group vision
     uv run python Python/examples/security_camera/demo.py --packaged
 
-The recording scripts use the CLI installed in your environment or on PATH. For a project-local plugin they can also launch the Fab or development CLI via `uvx`. The demo scripts draw their title cards with `matplotlib`
-(`uv sync --group media`) and encode with ffmpeg from the `imageio-ffmpeg` wheel, which uv fetches on demand.
+The recording scripts use the `media` group for title cards and download FFmpeg on demand. If the plugin is installed inside the project, they can also find its CLI there.
 
 ## Tests
 
@@ -93,11 +82,7 @@ type stubs the editor wrote at its first start, or `unrealpy stubs`):
 
 ## Licences
 
-Cane Studios licenses its original example code and accompanying documentation under the [MIT License](LICENSE). UnrealPy is a separately licensed plugin. Unreal Engine, template assets, and Python dependencies retain their own licences and notices. The source project references those materials and installs dependencies separately. Check the notices for the particular wheels and assets you include in a packaged build.
-
-Contact Cane Studios at [contact@canestudios.xyz](mailto:contact@canestudios.xyz).
-
-Dependency licences for the examples are listed below.
+Cane Studios’ example code and documentation use the [MIT License](LICENSE). UnrealPy, Unreal Engine, template assets and dependencies keep their own licences. [Contact Cane Studios](mailto:contact@canestudios.xyz).
 
 | Package | Licence | Used by |
 |---|---|---|
