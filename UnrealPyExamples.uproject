@@ -9,10 +9,6 @@
       "Enabled": true
     },
     {
-      "Name": "ScriptCore",
-      "Enabled": true
-    },
-    {
       "Name": "UnrealPy",
       "Enabled": true
     },

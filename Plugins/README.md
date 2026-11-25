@@ -1,6 +1,5 @@
-# Plugins
+# Plugin setup
 
-This project needs the ScriptCore and UnrealPy plugins, which are distributed separately and are not part of this
-repository. Put them here as `Plugins/ScriptCore` and `Plugins/UnrealPy` (both folders are git-ignored), or
-install them into the engine. The plugin binaries load only in the engine version they were built for: use the
-Unreal Engine 5.8 builds.
+Install UnrealPy for Unreal Engine 5.8 using the [installation guide](https://unrealpy.canestudios.xyz/docs/getting-started/installation/). The Fab package loads its required ScriptCore modules from the UnrealPy plugin. The example project enables UnrealPy in its project descriptor.
+
+For a development checkout with separate plugin descriptors, install both `Plugins/UnrealPy` and `Plugins/ScriptCore` from the same build. Both folders are git-ignored. Match the engine version used to compile the binaries.

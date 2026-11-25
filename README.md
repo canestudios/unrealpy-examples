@@ -1,6 +1,6 @@
 # UnrealPy examples
 
-The Python ecosystem inside Unreal Engine games: runtime examples for [UnrealPy](https://github.com/canestudios),
+The Python ecosystem inside Unreal Engine games: runtime examples for [UnrealPy](https://unrealpy.canestudios.xyz/),
 the Python scripting plugin for Unreal Engine 5. Every example is gameplay code written in Python that uses a
 well-known Python package **while the game runs**, in Play In Editor and in a packaged build.
 
@@ -19,19 +19,18 @@ well-known Python package **while the game runs**, in Play In Editor and in a pa
 
 Each clip is the packaged Development build at 1920x1080, recorded by the example's own `demo.py`.
 
-For a complete game written with UnrealPy, see [unrealpy-freedoom](https://github.com/canestudios/unrealpy-freedoom).
+[Watch the packaged examples and follow their recipes](https://unrealpy.canestudios.xyz/docs/examples/packages/). For a complete game, [play Freedoom in a desktop browser](https://canestudios.github.io/unrealpy-freedoom/) or [read the gameplay source](https://github.com/canestudios/unrealpy-freedoom).
 
 ## Requirements
 
 - Unreal Engine 5.8 (Windows), an NVIDIA GPU for the fluid.
-- The **UnrealPy** plugin and its companion **ScriptCore**, distributed separately: they are not part of this
-  repository (see [Plugins/README.md](Plugins/README.md)).
+- A matching **UnrealPy** installation. The UE 5.8 Fab package includes its ScriptCore modules. For a development build, see [plugin setup](Plugins/README.md).
 - [uv](https://docs.astral.sh/uv/).
 
 ## Set up
 
 1. Clone this repository; it is an Unreal project, `UnrealPyExamples.uproject`.
-2. Copy the plugins into `Plugins/`: `Plugins/UnrealPy` and `Plugins/ScriptCore`.
+2. Follow the [UnrealPy installation guide](https://unrealpy.canestudios.xyz/docs/getting-started/installation/). The project enables UnrealPy automatically.
 3. Open `UnrealPyExamples.uproject` once. On that first start UnrealPy creates the project's Python
    environment (`.venv`, with the engine's own Python, from `pyproject.toml` and `uv.lock`; it needs internet
    once) and the `ue` type stubs. Without the editor:
@@ -97,7 +96,11 @@ type stubs the editor wrote at its first start, or `unrealpy stubs`):
 
 ## Licences
 
-The examples are code; the packages they use keep their own licences:
+Cane Studios licenses its original example code and accompanying documentation under the [MIT License](LICENSE). UnrealPy is a separately licensed plugin. Unreal Engine, template assets, and Python dependencies retain their own licences and notices. The source project references those materials and installs dependencies separately. Check the notices for the particular wheels and assets you include in a packaged build.
+
+Contact Cane Studios at [contact@canestudios.xyz](mailto:contact@canestudios.xyz).
+
+Dependency licences for the examples are listed below.
 
 | Package | Licence | Used by |
 |---|---|---|
