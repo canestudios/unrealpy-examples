@@ -95,11 +95,14 @@ def unrealpy(project: Path) -> list[str]:
     found = str(local) if local.is_file() else shutil.which("unrealpy")
     if found is not None:
         return [found]
-    cli = project / "Plugins" / "UnrealPy" / "Tools" / "unrealpy_cli"
+    plugin = project / "Plugins" / "UnrealPy"
     uvx = shutil.which("uvx")
-    if uvx is None or not cli.is_dir():
-        raise SystemExit("unrealpy not found: put the UnrealPy plugin in Plugins/, install uv (README.md)")
-    return [uvx, "--from", str(cli), "unrealpy"]
+    if uvx:
+        for tools_dir in (plugin / "Content" / "Python" / "Tools", plugin / "Tools"):
+            cli = tools_dir / "unrealpy_cli"
+            if cli.is_dir():
+                return [uvx, "--from", str(cli), "unrealpy"]
+    raise SystemExit("Install the UnrealPy CLI from your plugin or add it to PATH (see README.md).")
 
 
 def run_unrealpy(arguments: list[str], project: Path) -> dict[str, Any]:

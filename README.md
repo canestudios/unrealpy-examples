@@ -33,9 +33,7 @@ Each clip is the packaged Development build at 1920x1080, recorded by the exampl
 2. Follow the [UnrealPy installation guide](https://unrealpy.canestudios.xyz/docs/getting-started/installation/). The project enables UnrealPy automatically.
 3. Open `UnrealPyExamples.uproject` once. On that first start UnrealPy creates the project's Python
    environment (`.venv`, with the engine's own Python, from `pyproject.toml` and `uv.lock`; it needs internet
-   once) and the `ue` type stubs. Without the editor:
-   `uvx --from ./Plugins/UnrealPy/Tools/unrealpy_cli unrealpy env` makes the environment and
-   `... unrealpy stubs` the stubs.
+   once) and the `ue` type stubs. With the CLI on PATH, run `unrealpy env` and `unrealpy stubs` from this project to do this without the editor. To install the CLI on PATH, use `uv tool install "<UnrealPy plugin folder>/Content/Python/Tools/unrealpy_cli"` with the actual Fab installation path. For a development checkout, the CLI is in `<UnrealPy plugin folder>/Tools/unrealpy_cli`.
 4. Install the packages of the example you want, one dependency group each (so nobody downloads them all):
 
    | Example | Group | Packages |
@@ -78,11 +76,10 @@ a screenshot under `Saved/`, from the project folder:
 
 and the same in a packaged Development build, after packaging with the example's group:
 
-    uvx --from ./Plugins/UnrealPy/Tools/unrealpy_cli unrealpy package --group vision
+    unrealpy package --group vision
     uv run python Python/examples/security_camera/demo.py --packaged
 
-The commands find the plugin's `unrealpy` command line in `Plugins/UnrealPy/Tools/unrealpy_cli` (through
-`uvx`) when the environment does not have it. The demo scripts draw their title cards with `matplotlib`
+The recording scripts use the CLI installed in your environment or on PATH. For a project-local plugin they can also launch the Fab or development CLI via `uvx`. The demo scripts draw their title cards with `matplotlib`
 (`uv sync --group media`) and encode with ffmpeg from the `imageio-ffmpeg` wheel, which uv fetches on demand.
 
 ## Tests
