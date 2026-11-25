@@ -56,10 +56,10 @@ It runs at 60 fps, in Play In Editor and packaged; one render in the analytics p
 
 ## Run it (one command)
 
-From the project folder, with the project environment synced (`uv sync --group dev`, which includes the
-`analytics` group):
+From the project folder, install the scene and recording dependencies:
 
-    uv run python Python/examples/live_analytics/demo.py
+    uv sync --locked --group analytics --group media
+    uv run --no-sync python Python/examples/live_analytics/demo.py
 
 It copies the mannequins from the engine's template on first run (see below), starts a headless editor
 (no window, rendering offscreen) with Lumen, enters **Play In Editor** with `AnalyticsMode` and shoots the
@@ -67,7 +67,7 @@ It copies the mannequins from the engine's template on first run (see below), st
 fetched by uv on demand) makes `Saved/LiveAnalytics/live_analytics_pie.mp4`, with the banner, and a JPEG of
 the last frame. The packaged game runs the same scenario at 1920x1080:
 
-    uv run python Python/examples/live_analytics/demo.py --packaged
+    uv run --no-sync python Python/examples/live_analytics/demo.py --packaged
 
 ## The mannequins
 
@@ -80,7 +80,7 @@ limp: the mannequin's own physics asset, simulated. The repository ships
 no Unreal assets: `examples/mannequins.py` copies the mannequin pack from the engine's own template content
 (`Templates/TemplateResources/High/Characters/Content/Mannequins`, 125 MB) to the project's
 `Content/Characters/Mannequins`, the paths the template uses, the first time a demo runs (or with
-`uv run python -m examples.mannequins`). `Config/DefaultGame.ini` cooks that folder.
+`uv run --no-sync python -m examples.mannequins`). `Config/DefaultGame.ini` cooks that folder.
 
 ## Look
 
@@ -97,9 +97,9 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 ## Packaging
 
 pandas and matplotlib are the `analytics` dependency group of the project's `pyproject.toml` (locked in
-`uv.lock`), included in `dev` so the editor's environment has it. A packaged game installs it with
+`uv.lock`). A packaged game installs it with
 
-    uv run unrealpy package --group analytics
+    unrealpy package --group analytics
 
 It works: the packaged Development build runs the same scenario (`demo.py --packaged`), the render process
 included (the packaged game stages the engine's `pythonw`). pandas, matplotlib and their dependencies add

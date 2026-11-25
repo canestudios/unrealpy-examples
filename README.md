@@ -25,7 +25,7 @@ Four Unreal scenes use Python packages during gameplay. Run them in the editor o
 ## Set up
 
 1. Open `UnrealPyExamples.uproject` with UnrealPy installed. First start needs internet to set up Python. Close the editor when setup finishes.
-2. In the project folder, install the dependency group for the scene you want. For the camera, run `uv sync --group dev --group vision`.
+2. In the project folder, install the dependency group for the scene you want. For the camera, run `uv sync --locked --group vision --group media`.
 
    | Example | Group | Packages |
    |---|---|---|
@@ -47,27 +47,28 @@ fill at their first run: Epic's mannequins, copied from the engine's own third-p
 
 ## Run an example
 
-**Play it.** Open the project, then in the editor's Python console run the example's `play` function; it
-reopens the level with the example's game mode, and the example starts by itself:
+**Play it.** Copy the mannequins from the engine template, then launch the security camera in a game window. Adjust the engine path for your installation. Watch the guards and intruder move through the camera’s view.
 
-    import examples.fluid.game; examples.fluid.game.play([])
+```powershell
+uv run --no-sync python -m examples.mannequins
+$editor = "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe"
+& $editor (Resolve-Path UnrealPyExamples.uproject).Path -game -windowed -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
+```
 
-(`examples.security_camera.game`, `examples.learning_enemies.game`, `examples.live_analytics.game`,
-`examples.fluid.game`). The fluid needs its materials once: `uv run python Python/examples/fluid/demo.py`
-builds them, or run `examples.fluid.assets.main([])` in the editor.
+For another scene, replace `security_camera` with its folder name and sync its dependency group. Before playing the fluid scene for the first time, run `unrealpy run --editor examples.fluid.assets:main` to create its materials.
 
 **Record it.** Each example has one command that plays it in a headless editor (no window) and saves a clip and
 a screenshot under `Saved/`, from the project folder:
 
-    uv run python Python/examples/security_camera/demo.py
-    uv run python Python/examples/learning_enemies/demo.py
-    uv run python Python/examples/live_analytics/demo.py
-    uv run python Python/examples/fluid/demo.py
+    uv run --no-sync python Python/examples/security_camera/demo.py
+    uv run --no-sync python Python/examples/learning_enemies/demo.py
+    uv run --no-sync python Python/examples/live_analytics/demo.py
+    uv run --no-sync python Python/examples/fluid/demo.py
 
 and the same in a packaged Development build, after packaging with the example's group:
 
     unrealpy package --group vision
-    uv run python Python/examples/security_camera/demo.py --packaged
+    uv run --no-sync python Python/examples/security_camera/demo.py --packaged
 
 The recording scripts use the `media` group for title cards and download FFmpeg on demand. If the plugin is installed inside the project, they can also find its CLI there.
 
@@ -78,7 +79,7 @@ have unit tests, which run on UnrealPy's engine-less fake of the `ue` module (fr
 type stubs the editor wrote at its first start, or `unrealpy stubs`):
 
     uv sync --group dev --group vision --group learning --group analytics --group fluid
-    uv run pytest
+    uv run --no-sync pytest
 
 ## Licences
 

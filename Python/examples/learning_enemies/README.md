@@ -44,7 +44,7 @@ It walks at 300 cm/s, the walk animation's own ground speed (measured from the f
 slide, and turns at a limited rate; the rules throw from where the character really is. The repository
 ships no Unreal assets: `examples/mannequins.py` copies the mannequin pack from the engine's own template
 content to the project's `Content/Characters/Mannequins` the first time a demo runs (or with
-`uv run python -m examples.mannequins`); `Config/DefaultGame.ini` cooks that folder.
+`uv run --no-sync python -m examples.mannequins`); `Config/DefaultGame.ini` cooks that folder.
 
 ## Look
 
@@ -60,10 +60,10 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 
 ## Run it (one command)
 
-From the project folder, with the project environment synced (`uv sync --group dev`, which includes the
-`learning` group):
+From the project folder, install the scene and recording dependencies:
 
-    uv run python Python/examples/learning_enemies/demo.py
+    uv sync --locked --group learning --group media
+    uv run --no-sync python Python/examples/learning_enemies/demo.py
 
 It copies the mannequins on first run, starts a headless editor (no window, rendering offscreen) with
 Lumen, enters **Play In Editor** with `LearningMode`, and shoots the clip from the first second: 15 s at 30 fps as a 3x time-lapse
@@ -73,7 +73,7 @@ JPEG of the last frame. `--speed 1` records in real time.
 
 The packaged game (see below) runs the same scenario:
 
-    uv run python Python/examples/learning_enemies/demo.py --packaged
+    uv run --no-sync python Python/examples/learning_enemies/demo.py --packaged
 
 To watch it in a window:
 
@@ -92,10 +92,9 @@ instead of per game second. Played in real time, nothing waits.
 ## Packaging
 
 PyTorch is the `learning` dependency group of the project's `pyproject.toml`: the CPU build of torch
-2.14.1 from the PyTorch CPU index (no CUDA libraries), locked in `uv.lock` and included in `dev` so the
-editor's environment has it. A packaged game installs it with
+2.14.1 from the PyTorch CPU index (no CUDA libraries), locked in `uv.lock`. A packaged game installs it with
 
-    uv run unrealpy package --group learning
+    unrealpy package --group learning
 
 It works: the packaged Development build runs the same scenario (`demo.py --packaged`), learning curve,
 clip and screenshot included, with the same timeline as in the editor.

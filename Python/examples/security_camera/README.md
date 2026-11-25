@@ -44,7 +44,7 @@ the mannequin material's own parameters (silver, gold, magenta). The repository 
 `examples/mannequins.py` copies the mannequin pack from the engine's own template content
 (`Templates/TemplateResources/High/Characters/Content/Mannequins`, 125 MB) to the project's
 `Content/Characters/Mannequins`, the paths the template uses, the first time a demo runs (or with
-`uv run python -m examples.mannequins`). `Config/DefaultGame.ini` cooks that folder.
+`uv run --no-sync python -m examples.mannequins`). `Config/DefaultGame.ini` cooks that folder.
 
 ## Look
 
@@ -60,10 +60,10 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 
 ## Run it (one command)
 
-From the project folder, with the project environment synced (`uv sync --group dev`, which includes the
-`vision` group):
+From the project folder, install the scene and recording dependencies:
 
-    uv run python Python/examples/security_camera/demo.py
+    uv sync --locked --group vision --group media
+    uv run --no-sync python Python/examples/security_camera/demo.py
 
 It copies the mannequins on first run, starts a headless editor (no window, rendering offscreen) with
 Lumen, enters **Play In Editor** with `SecurityMode`, lets it run a few seconds, then shoots a 12 s clip (the game steps exactly 1/30 s per
@@ -73,7 +73,7 @@ frame, so the clip plays at real speed). ffmpeg (from the
 
 The packaged game (see below) runs the same scenario:
 
-    uv run python Python/examples/security_camera/demo.py --packaged
+    uv run --no-sync python Python/examples/security_camera/demo.py --packaged
 
 Watch it in a window (WASD and the mouse fly the spectator):
 
@@ -99,9 +99,9 @@ exposes to scripts today.
 ## Packaging
 
 OpenCV is the `vision` dependency group of the project's `pyproject.toml` (`opencv-python-headless`,
-locked in `uv.lock`), included in `dev` so the editor's environment has it. A packaged game installs it with
+locked in `uv.lock`). A packaged game installs it with
 
-    uv run unrealpy package --group vision
+    unrealpy package --group vision
 
 It works: the packaged Development build runs the same scenario (`demo.py --packaged`), clip and
 screenshot included. It needed one fix in UnrealPy, part of this work: OpenCV's extension is built for the
@@ -109,7 +109,7 @@ stable ABI and links `python3.dll`, which a packaged game stages only in the eng
 next to the game's executable, so `import cv2` failed with "DLL load failed"; UnrealPy now adds the
 interpreter's home to the DLL search path when it activates the environment.
 
-Size: OpenCV adds 126 MB to the package, made with `uv run unrealpy package --group vision`.
+Size: OpenCV adds 126 MB to the package, made with `unrealpy package --group vision`.
 
 ## Files
 

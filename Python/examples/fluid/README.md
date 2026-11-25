@@ -70,10 +70,10 @@ The particles are never drawn one by one, and they never go through a list of Py
 
 ## Run it (one command)
 
-From the project folder, with the project environment synced (`uv sync --group dev`, which includes the
-`fluid` group):
+From the project folder, install the scene and recording dependencies:
 
-    uv run python Python/examples/fluid/demo.py
+    uv sync --locked --group fluid --group media
+    uv run --no-sync python Python/examples/fluid/demo.py
 
 It builds the materials if the project lacks them, copies the mannequins from the engine's template if needed
 (see `examples/mannequins.py`), starts a headless editor (no window, rendering offscreen) with Lumen, enters
@@ -82,8 +82,8 @@ seconds of real time. ffmpeg (from the `imageio-ffmpeg` wheel) makes `Saved/Flui
 with the `lambdas` kernel's source, then the clip with a one-line banner, and a JPEG of the last frame. The
 packaged game runs the same scenario at 1920x1080:
 
-    uv run unrealpy package --group fluid
-    uv run python Python/examples/fluid/demo.py --packaged
+    unrealpy package --group fluid
+    uv run --no-sync python Python/examples/fluid/demo.py --packaged
 
 ## Packaging
 
