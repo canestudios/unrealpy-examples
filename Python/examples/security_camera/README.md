@@ -104,10 +104,10 @@ locked in `uv.lock`). A packaged game installs it with
     unrealpy package --group vision
 
 It works: the packaged Development build runs the same scenario (`demo.py --packaged`), clip and
-screenshot included. It needed one fix in UnrealPy, part of this work: OpenCV's extension is built for the
-stable ABI and links `python3.dll`, which a packaged game stages only in the engine's Python folder, not
-next to the game's executable, so `import cv2` failed with "DLL load failed"; UnrealPy now adds the
-interpreter's home to the DLL search path when it activates the environment.
+screenshot included. On Windows, OpenCV's extension is built for the stable ABI and links `python3.dll`, which a
+packaged game keeps in the engine's Python folder rather than beside its executable; UnrealPy adds that folder to
+the DLL search path when it activates the environment, so the official wheel loads unchanged. On Linux the wheel
+needs nothing extra.
 
 Size: OpenCV adds 126 MB to the package, made with `unrealpy package --group vision`.
 

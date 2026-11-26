@@ -361,7 +361,7 @@ async def showcase(
 
 
 def _out_dir() -> Path:
-    return Path(ue.project_dir()).resolve() / "Saved" / "LearningEnemies"
+    return Path(ue.saved_dir()).resolve() / "LearningEnemies"
 
 
 def _options(args: list[str]) -> dict[str, Any]:

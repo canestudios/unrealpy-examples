@@ -1,6 +1,6 @@
 # UnrealPy examples
 
-Four Unreal scenes use Python packages during gameplay. Run them in the editor or a packaged Windows game with [UnrealPy](https://unrealpy.canestudios.xyz/).
+Four Unreal scenes use Python packages during gameplay. Run them in the editor or a packaged Windows or Linux game with [UnrealPy](https://unrealpy.canestudios.xyz/).
 
 | Example | Python package | What it does |
 |---|---|---|
@@ -19,7 +19,8 @@ Four Unreal scenes use Python packages during gameplay. Run them in the editor o
 
 ## Requirements
 
-- Windows and Unreal Engine 5.8 with mannequin template content. The fluid scene also needs an NVIDIA GPU.
+- Unreal Engine 5.8 on Windows or Linux x86-64, with mannequin template content. The fluid scene also needs an
+  NVIDIA GPU.
 - [UnrealPy for UE 5.8](Plugins/README.md) and [uv](https://docs.astral.sh/uv/).
 
 ## Set up
@@ -53,6 +54,14 @@ fill at their first run: Epic's mannequins, copied from the engine's own third-p
 uv run --no-sync python -m examples.mannequins
 $editor = "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe"
 & $editor (Resolve-Path UnrealPyExamples.uproject).Path -game -windowed -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
+```
+
+On Linux:
+
+```sh
+uv run --no-sync python -m examples.mannequins
+editor=<UE>/Engine/Binaries/Linux/UnrealEditor
+"$editor" "$PWD/UnrealPyExamples.uproject" -game -windowed -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
 ```
 
 For another scene, replace `security_camera` with its folder name and sync its dependency group. Before playing the fluid scene for the first time, run `unrealpy run --editor examples.fluid.assets:main` to create its materials.
