@@ -388,7 +388,7 @@ async def showcase(mode: FluidMode, *, measure: float, clip: float, out: Path) -
 
 
 def _out_dir() -> Path:
-    return Path(ue.project_dir()).resolve() / "Saved" / "Fluid"
+    return Path(ue.saved_dir()).resolve() / "Fluid"
 
 
 def _options(args: list[str]) -> dict[str, Any]:

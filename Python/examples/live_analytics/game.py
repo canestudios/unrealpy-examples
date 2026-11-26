@@ -611,7 +611,7 @@ async def showcase(mode: AnalyticsMode, *, warmup: float, clip: float, out: Path
 
 
 def _out_dir() -> Path:
-    return Path(ue.project_dir()).resolve() / "Saved" / "LiveAnalytics"
+    return Path(ue.saved_dir()).resolve() / "LiveAnalytics"
 
 
 def _options(args: list[str]) -> dict[str, Any]:

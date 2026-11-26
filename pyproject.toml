@@ -2,11 +2,12 @@
 name = "unrealpy-examples"
 version = "0.1.0"
 description = "Runtime examples for UnrealPy: the Python ecosystem inside Unreal Engine games"
-# Unreal Engine 5.8 embeds CPython 3.11: the packages must be built for it.
-requires-python = "==3.11.*"
-# numpy and typing-extensions: what UnrealPy itself needs in every environment.
+# Unreal Engine 5.8 embeds CPython 3.11; the lock also covers CPython 3.12 to 3.15.
+requires-python = ">=3.11,<3.16"
+# numpy and typing-extensions: what UnrealPy itself needs in every environment. NumPy supports 3.15 from 2.5.
 dependencies = [
-    "numpy==2.4.6",
+    "numpy==2.4.6; python_version < '3.15'",
+    "numpy==2.5.5; python_version >= '3.15'",
     "typing-extensions==4.16.0",
 ]
 

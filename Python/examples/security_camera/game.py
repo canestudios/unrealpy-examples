@@ -506,7 +506,7 @@ def build_room() -> dict[str, Any]:
     for hidden in (screen.actor, bezel, *legs, beacon, turret, *lasers):
         capture.hide_actor_components(hidden, True)
 
-    feed = Path(ue.project_dir()).resolve() / "Saved" / "SecurityCamera" / "feed.png"
+    feed = _out_dir() / "feed.png"
     feed.parent.mkdir(parents=True, exist_ok=True)
     model = vision.CameraModel(CAMERA_AT, rotation, FEED_FOV, *FEED_SIZE)
     return {
@@ -557,7 +557,7 @@ async def showcase(
 
 
 def _out_dir() -> Path:
-    return Path(ue.project_dir()).resolve() / "Saved" / "SecurityCamera"
+    return Path(ue.saved_dir()).resolve() / "SecurityCamera"
 
 
 def _options(args: list[str]) -> dict[str, Any]:

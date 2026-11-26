@@ -25,6 +25,7 @@ DerivedDataCache/
 
 # Python
 .venv/
+.venv-3.*/
 __pycache__/
 *.pyc
 .pytest_cache/
