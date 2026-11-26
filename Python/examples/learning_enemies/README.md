@@ -92,7 +92,7 @@ instead of per game second. Played in real time, nothing waits.
 ## Packaging
 
 PyTorch is the `learning` dependency group of the project's `pyproject.toml`: the CPU build of torch
-2.14.1 from the PyTorch CPU index (no CUDA libraries), locked in `uv.lock`. A packaged game installs it with
+2.15.0 from the PyTorch CPU index (no CUDA libraries), locked in `uv.lock`. A packaged game installs it with
 
     unrealpy package --group learning
 
@@ -121,7 +121,7 @@ the arena: the drones must go from mostly hit to mostly dodging.
 
 | Package | Licence |
 |---|---|
-| `torch` 2.14.1+cpu (PyTorch) | BSD-3-Clause |
+| `torch` 2.15.0+cpu (PyTorch) | BSD-3-Clause |
 | `sympy`, `networkx`, `fsspec`, `mpmath` (torch's dependencies) | BSD-3-Clause |
 | `filelock`, `setuptools` (torch's dependencies) | Unlicense, MIT |
 | `imageio-ffmpeg` 0.6.0 (only to encode the clip, never in the game) | BSD-2-Clause; its ffmpeg binary is GPL-3.0 |

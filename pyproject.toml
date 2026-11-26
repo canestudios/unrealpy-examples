@@ -20,7 +20,7 @@ vision = [
 ]
 # learning_enemies: a small network trained while the game runs (the CPU build of torch).
 learning = [
-    "torch==2.14.1",
+    "torch==2.15.0",
 ]
 # live_analytics: playtest telemetry summarised and drawn in-game.
 analytics = [
