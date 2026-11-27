@@ -5,7 +5,7 @@ use telemetry for during playtests (where do players go, where do they die, how 
 collected while the level is played and shown live, in the world. Not an editor tool, not an export for
 later: it runs in Play In Editor and in a packaged Development build.
 
-![The greybox level from above: playtesters on the bridge, the traffic heatmap in cyan, red death crosses and red heat at the blade, the charts screen behind](../../../docs/images/live_analytics_demo.jpg)
+![The greybox level from above: playtesters on the bridge, the traffic heatmap in cyan, red death crosses and red heat at the blade, the charts screen behind](../../../../../docs/images/live_analytics_demo.jpg)
 
 *`demo.py --packaged`: the last frame of the run, 1920x1080.*
 
@@ -59,7 +59,7 @@ It runs at 60 fps, in Play In Editor and packaged; one render in the analytics p
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group analytics --group media
-    uv run --no-sync python Python/examples/live_analytics/demo.py
+    uv run --no-sync python Content/Python/gameplay/examples/live_analytics/demo.py
 
 It copies the mannequins from the engine's template on first run (see below), starts a headless editor
 (no window, rendering offscreen) with Lumen, enters **Play In Editor** with `AnalyticsMode` and shoots the
@@ -67,7 +67,7 @@ It copies the mannequins from the engine's template on first run (see below), st
 fetched by uv on demand) makes `Saved/LiveAnalytics/live_analytics_pie.mp4`, with the banner, and a JPEG of
 the last frame. The packaged game runs the same scenario at 1920x1080:
 
-    uv run --no-sync python Python/examples/live_analytics/demo.py --packaged
+    uv run --no-sync python Content/Python/gameplay/examples/live_analytics/demo.py --packaged
 
 ## The mannequins
 

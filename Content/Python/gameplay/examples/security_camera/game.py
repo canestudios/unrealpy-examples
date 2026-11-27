@@ -6,7 +6,7 @@ a tracker that keeps ids). The gameplay reacts: a spotlight turret swings onto t
 beacon turns red, and a monitor on the wall shows the camera feed with OpenCV's boxes drawn on it (the
 annotated frame goes back into a texture).
 
-    uv run python Python/examples/security_camera/demo.py          # Play In Editor, clip + screenshot
+    uv run python -m examples.security_camera.demo          # Play In Editor, clip + screenshot
     unrealpy run --render examples.security_camera.game:demo       # standalone game
     unrealpy run --packaged examples.security_camera.game:demo     # packaged build (--group vision)
     UnrealEditor.exe UnrealPyExamples.uproject -game -windowed -UnrealPyRun=examples.security_camera.game:play
@@ -34,7 +34,7 @@ from ue import agent
 if TYPE_CHECKING:
     from examples.security_camera import vision
 
-# The project imports every module under Python/examples at startup (ClassPackages) to define its classes:
+# ClassPackages discovers the example classes at startup, but
 # OpenCV waits until a SecurityMode actually starts.
 
 # The room: x in [-ROOM_X, ROOM_X], y in [-ROOM_Y, ROOM_Y], floor at z = 0 (centimetres).
@@ -571,7 +571,7 @@ def _options(args: list[str]) -> dict[str, Any]:
 
 
 async def pie(args: list[str]) -> dict[str, Any]:
-    """`unrealpy run --editor --render Python/examples/security_camera/game.py:pie`: Play In Editor."""
+    """`unrealpy run --editor --render examples.security_camera.game:pie`: Play In Editor."""
     options = _options(args)
     mode = await stage.start_in_editor(SecurityMode)
     try:

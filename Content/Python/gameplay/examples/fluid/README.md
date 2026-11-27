@@ -5,7 +5,7 @@ the simulation a Python function that NVIDIA Warp compiles to a CUDA kernel, cal
 with UnrealPy, drawn as a water surface with foam and spray. It runs in Play In Editor and in a packaged
 Development build, at 65 fps at 1920x1080 with Lumen on an RTX 3070 Ti (8 GB).
 
-![The tank: the dam has broken, a wave runs between the pillars and over the ramp, into the mannequins](../../../docs/images/fluid_demo.jpg)
+![The tank: the dam has broken, a wave runs between the pillars and over the ramp, into the mannequins](../../../../../docs/images/fluid_demo.jpg)
 
 *`demo.py --packaged`: the last frame of the run, 1920x1080.*
 
@@ -65,7 +65,7 @@ The particles are never drawn one by one, and they never go through a list of Py
    `M_FluidSurface` lifts each corner to the height field in the vertex shader, takes the normal from it,
    colours the water by its depth (clear and light where it is shallow, deep blue where it is deep) and
    turns it white where it is fast or steep. The **spray** is 16,384 instanced quads that `M_FluidParticle`
-   moves to their texels and draws as little spheres of water. Both materials are built by `assets.py`
+   moves to their texels and draws as little spheres of water. Both materials are built by [the editor script](../../../editor/fluid_assets.py)
    with MaterialEditingLibrary, into `Content/Fluid`.
 
 ## Run it (one command)
@@ -73,7 +73,7 @@ The particles are never drawn one by one, and they never go through a list of Py
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group fluid --group media
-    uv run --no-sync python Python/examples/fluid/demo.py
+    uv run --no-sync python Content/Python/gameplay/examples/fluid/demo.py
 
 It builds the materials if the project lacks them, copies the mannequins from the engine's template if needed
 (see `examples/mannequins.py`), starts a headless editor (no window, rendering offscreen) with Lumen, enters
@@ -83,7 +83,7 @@ with the `lambdas` kernel's source, then the clip with a one-line banner, and a 
 packaged game runs the same scenario at 1920x1080:
 
     unrealpy package --group fluid
-    uv run --no-sync python Python/examples/fluid/demo.py --packaged
+    uv run --no-sync python Content/Python/gameplay/examples/fluid/demo.py --packaged
 
 ## Packaging
 
@@ -106,7 +106,7 @@ seconds), later runs load them.
 |---|---|---|
 | `sim.py` | game, tests (CPU device) | the Warp kernels (simulation, height field, spray) and the `Fluid` that runs them; the tank |
 | `game.py` | game | `FluidMode`, the tank's actors, the mannequins, the surface and spray instances, `pie`/`demo`/`play` |
-| `assets.py` | editor | builds `M_FluidSurface` and `M_FluidParticle` |
+| [`fluid_assets.py`](../../../editor/fluid_assets.py) | editor | builds `M_FluidSurface` and `M_FluidParticle` |
 | `demo.py` | command line | the one-command run and the MP4/JPEG |
 
 `Tests/unit/test_fluid.py` runs the kernels on Warp's CPU device: a small dam breaks and stays in its tank,

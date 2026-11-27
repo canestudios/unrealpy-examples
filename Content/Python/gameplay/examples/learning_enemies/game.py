@@ -9,7 +9,7 @@ labels (DAgger: imitation learning on the policy's own experience). In well unde
 start stepping out of the balls' way. A board behind the arena plots the dodge rate per episode (one
 episode per ball), with the episode count and the training loss.
 
-    uv run python Python/examples/learning_enemies/demo.py       # Play In Editor, clip + screenshot
+    uv run python -m examples.learning_enemies.demo       # Play In Editor, clip + screenshot
     unrealpy run --render examples.learning_enemies.game:demo    # standalone game
     unrealpy run --packaged examples.learning_enemies.game:demo  # packaged build (--group learning)
 
@@ -34,7 +34,7 @@ if TYPE_CHECKING:
     from examples.learning_enemies import arena as rules
     from examples.learning_enemies import brain
 
-# The project imports every module under Python/examples at startup (ClassPackages) to define its classes:
+# ClassPackages discovers the example classes at startup, but
 # torch (seconds to import) waits until a LearningMode actually starts.
 
 ARENA = 750.0  # brain.ARENA
@@ -373,7 +373,7 @@ def _options(args: list[str]) -> dict[str, Any]:
 
 
 async def pie(args: list[str]) -> dict[str, Any]:
-    """`unrealpy run --editor --render Python/examples/learning_enemies/game.py:pie`: Play In Editor."""
+    """`unrealpy run --editor --render examples.learning_enemies.game:pie`: Play In Editor."""
     options = _options(args)
     mode = await stage.start_in_editor(LearningMode)
     try:

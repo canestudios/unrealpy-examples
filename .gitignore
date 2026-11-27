@@ -19,7 +19,7 @@ DerivedDataCache/
 !/Plugins/README.md
 
 # Made by the examples at their first run: Epic's mannequins (copied from the engine's own template) and the
-# fluid's materials (built by Python/examples/fluid/assets.py)
+# fluid's materials (built by Content/Python/editor/fluid_assets.py)
 /Content/Characters/
 /Content/Fluid/
 

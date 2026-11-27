@@ -4,7 +4,7 @@ PyTorch **training inside the game**, in gameplay code written with UnrealPy. Th
 game mode starts, drives the enemies from the first second and learns from what happens to them, in Play
 In Editor and in a packaged Development build.
 
-![The floodlit arena: five red drones around the silver mannequin, glowing balls in flight, the board plotting the dodge rate climbing to 100 %](../../../docs/images/learning_enemies_demo.jpg)
+![The floodlit arena: five red drones around the silver mannequin, glowing balls in flight, the board plotting the dodge rate climbing to 100 %](../../../../../docs/images/learning_enemies_demo.jpg)
 
 *`demo.py --packaged`: the last frame of the run, 1920x1080.*
 
@@ -63,7 +63,7 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group learning --group media
-    uv run --no-sync python Python/examples/learning_enemies/demo.py
+    uv run --no-sync python Content/Python/gameplay/examples/learning_enemies/demo.py
 
 It copies the mannequins on first run, starts a headless editor (no window, rendering offscreen) with
 Lumen, enters **Play In Editor** with `LearningMode`, and shoots the clip from the first second: 15 s at 30 fps as a 3x time-lapse
@@ -73,7 +73,7 @@ JPEG of the last frame. `--speed 1` records in real time.
 
 The packaged game (see below) runs the same scenario:
 
-    uv run --no-sync python Python/examples/learning_enemies/demo.py --packaged
+    uv run --no-sync python Content/Python/gameplay/examples/learning_enemies/demo.py --packaged
 
 To watch it in a window:
 

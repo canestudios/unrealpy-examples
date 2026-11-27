@@ -16,7 +16,7 @@ it live, in the world:
 The summaries (pandas) and the drawing run in a separate Python process (matplotlib would hold the game's
 GIL for a quarter of a second per chart); the game thread only appends rows and swaps textures.
 
-    uv run python Python/examples/live_analytics/demo.py        # Play In Editor, clip + screenshot
+    uv run python -m examples.live_analytics.demo        # Play In Editor, clip + screenshot
     unrealpy run --packaged examples.live_analytics.game:demo   # packaged build (--group analytics)
 
 Only /Engine content and the template mannequins (see examples/mannequins.py) are used.
@@ -44,7 +44,7 @@ from ue import agent
 if TYPE_CHECKING:
     from examples.live_analytics import playtest, render
 
-# The project imports every module under Python/examples at startup (ClassPackages) to define its classes:
+# ClassPackages discovers the example classes at startup, but
 # pandas and matplotlib wait until an AnalyticsMode actually starts (level is plain Python).
 
 SAMPLE_HZ = 5.0

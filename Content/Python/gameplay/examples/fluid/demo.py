@@ -1,8 +1,8 @@
 """The whole example in one command, from the project folder:
 
-    uv run python Python/examples/fluid/demo.py [--packaged [--packaged-dir DIR]] [--clip SECONDS]
+    uv run python -m examples.fluid.demo [--packaged [--packaged-dir DIR]] [--clip SECONDS]
 
-1. builds the water's materials in a headless editor if the project lacks them (assets.py);
+1. builds the water's materials in a headless editor if the project lacks them (fluid_assets.py);
 2. runs the game (Play In Editor in a headless editor, or the packaged game with --packaged): Warp compiles
    the kernels (or loads them from Saved/WarpCache), the clip is shot frame by frame at 1920x1080 while
    the dam breaks, then the frame rate is measured for a few seconds of real time (game.py);
@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Python/ is on the project environment's path
+from examples import showreel  # Content/Python/gameplay is on the project environment's path
 
 HERE = Path(__file__).resolve().parent
 CARD_SECONDS = 3
@@ -115,7 +115,7 @@ def ensure_assets(project: Path) -> None:
     if all((folder / f"{name}.uasset").is_file() for name in ("M_FluidParticle", "M_FluidSurface")):
         return
     completed = subprocess.run(
-        [*showreel.unrealpy(project), "run", "--editor", "examples.fluid.assets:main"],
+        [*showreel.unrealpy(project), "run", "--editor", "Content/Python/editor/fluid_assets.py:main"],
         cwd=project,
         capture_output=True,
         text=True,

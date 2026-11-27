@@ -1,15 +1,15 @@
 """The whole example in one command, from the project folder:
 
-    uv run python Python/examples/learning_enemies/demo.py [--packaged] [--clip SECONDS] [--speed X]
+    uv run python -m examples.live_analytics.demo [--packaged] [--clip SECONDS]
 
 1. a headless editor (UnrealEditor-Cmd, rendering offscreen, no window) starts Play In Editor with
-   LearningMode and shoots the clip from the first second, untrained drones included, `--speed` times
-   faster than real time (game.py:pie); then it measures the frame time and the Python cost in real time;
-   with --packaged the packaged game does the same (game.py:demo, no editor);
+   AnalyticsMode, lets the first playtesters get going, then shoots the clip frame by frame through a
+   moving camera at 1920x1080 while the analytics build up (game.py:pie); with --packaged the packaged
+   game does the same (game.py:demo, no editor);
 2. ffmpeg (from the imageio-ffmpeg wheel, fetched by uv) turns the frames into an MP4 and the last frame
    into a compressed JPEG.
 
-Prints one JSON summary. No Unreal and no torch in this process.
+Prints one JSON summary. No Unreal, pandas or matplotlib in this process.
 """
 
 from __future__ import annotations
@@ -20,7 +20,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Python/ is on the project environment's path
+from examples import showreel  # Content/Python/gameplay is on the project environment's path
+
+BANNER = "Live playtest analytics: pandas + matplotlib + NumPy inside the game"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -30,22 +32,10 @@ def main(argv: list[str] | None = None) -> int:
         "--packaged-dir", help="the archive of `unrealpy package --archive-dir` (default: Saved/Packaged)"
     )
     parser.add_argument("--clip", type=float, default=15.0, help="seconds of clip (0: none)")
-    parser.add_argument("--speed", type=float, default=3.0, help="game seconds per clip second")
-    parser.add_argument(
-        "--measure", type=float, default=0.0, help="seconds of frame-time measurement (0: none)"
-    )
     parser.add_argument("--project", type=Path, default=Path.cwd())
-    parser.add_argument("--out", type=Path, help="where the MP4 and JPEG go (default: Saved/LearningEnemies)")
+    parser.add_argument("--out", type=Path, help="where the MP4 and JPEG go (default: Saved/LiveAnalytics)")
     options = parser.parse_args(argv)
-    extra = [
-        "--",
-        "--clip",
-        str(options.clip),
-        "--speed",
-        str(options.speed),
-        "--measure",
-        str(options.measure),
-    ]
+    extra = ["--", "--clip", str(options.clip)]
     if options.packaged:
         where = ["--packaged-dir", options.packaged_dir] if options.packaged_dir else []
         made = showreel.run_unrealpy(
@@ -55,34 +45,47 @@ def main(argv: list[str] | None = None) -> int:
                 "--render",
                 "--timeout",
                 "2400",
-                "examples.learning_enemies.game:demo",
+                "examples.live_analytics.game:demo",
                 *extra,
             ],
             options.project,
         )
     else:
         made = showreel.run_unrealpy(
-            ["--editor", "--render", "--timeout", "2400", "examples.learning_enemies.game:pie", *extra],
+            ["--editor", "--render", "--timeout", "2400", "examples.live_analytics.game:pie", *extra],
             options.project,
         )
     value = made["value"]
-    out = options.out or options.project / "Saved" / "LearningEnemies"
-    name = "learning_enemies_packaged" if options.packaged else "learning_enemies_pie"
+    out = options.out or options.project / "Saved" / "LiveAnalytics"
+    name = "live_analytics_packaged" if options.packaged else "live_analytics_pie"
     ffmpeg = showreel.find_ffmpeg()
     summary: dict[str, Any] = {
         "where": value["where"],
         "unreal_seconds": made["seconds"],
-        "perf": value["perf"],
     }
     if value.get("recording"):
-        clip = showreel.encode_clip(Path(value["recording"]["folder"]), 30, out / f"{name}.mp4", ffmpeg)
+        title = showreel.banner(BANNER, out / "banner.png")
+        clip = showreel.encode_clip(
+            Path(value["recording"]["folder"]), 30, out / f"{name}.mp4", ffmpeg, title
+        )
         summary["clip"] = str(clip)
         summary["clip_frames"] = value["recording"]["frames"]
     summary["screenshot"] = str(showreel.encode_still(Path(value["still"]), out / f"{name}.jpg", ffmpeg))
     summary["still_png"] = value["still"]
-    summary["after_clip"] = value["after_clip"]
-    summary["final"] = value["final"]
-    summary["curve_every_10_episodes"] = value["curve"]
+    summary["status"] = {
+        key: value.get(key)
+        for key in (
+            "game_seconds",
+            "runs",
+            "deaths",
+            "deaths_on_bridge",
+            "finished",
+            "samples",
+            "renders",
+            "render_ms_mean",
+            "renderer",
+        )
+    }
     print(json.dumps(summary, indent=2))
     return 0
 

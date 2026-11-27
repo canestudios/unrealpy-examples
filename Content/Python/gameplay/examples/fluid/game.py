@@ -10,9 +10,9 @@ flows around each one: the water shoves them, and a strong enough wave knocks th
 The particles go to the screen without leaving the GPU's memory more than once a frame: a kernel packs them
 (position in cm, speed), the game copies them into a float texture (FloatTextureLibrary: one memory copy
 from a NumPy array), and one instanced quad per particle reads its texel in the vertex shader and turns
-into a little sphere of water (M_FluidParticle, see assets.py), white foam where it is fast.
+into a little sphere of water (M_FluidParticle, see fluid_assets.py), white foam where it is fast.
 
-    uv run python Python/examples/fluid/demo.py                       # Play In Editor, clip + screenshot
+    uv run python -m examples.fluid.demo                       # Play In Editor, clip + screenshot
     unrealpy run --packaged examples.fluid.game:demo                  # packaged build (--group fluid)
 """
 
@@ -34,7 +34,7 @@ from ue import agent
 if TYPE_CHECKING:
     from examples.fluid import sim
 
-# The project imports every module under Python/examples at startup (ClassPackages) to define its classes:
+# ClassPackages discovers the example classes at startup, but
 # Warp waits until a FluidMode actually starts.
 
 TEXTURE_WIDTH = 128  # the spray texture: 128 x 128 = sim.SPRAY drops
