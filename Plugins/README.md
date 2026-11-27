@@ -4,4 +4,4 @@
 
 If you have a developer build with two plugins, copy the matching folders to `Plugins/UnrealPy` and `Plugins/ScriptCore`.
 
-Use a build that supports the project's `Content/Python/gameplay` import root.
+Use a build that supports the project's `Content/Python/unrealpy` import root.

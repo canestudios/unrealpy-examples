@@ -4,10 +4,10 @@ Four Unreal scenes use Python packages during gameplay. Run them in the editor o
 
 | Example | Python package | What it does |
 |---|---|---|
-| [Security camera](Content/Python/gameplay/examples/security_camera/README.md) | OpenCV | A camera in the level watches the room through OpenCV: motion detection, tracking, an alarm |
-| [Enemies that learn](Content/Python/gameplay/examples/learning_enemies/README.md) | PyTorch | Drones trained by a small network while you play: within a minute they dodge |
-| [Live playtest analytics](Content/Python/gameplay/examples/live_analytics/README.md) | pandas + matplotlib + NumPy | Autopiloted playtesters run a level; heatmaps and charts show where they walk and die |
-| [GPU fluid](Content/Python/gameplay/examples/fluid/README.md) | NVIDIA Warp | A fluid simulated by Python GPU kernels, pushing mannequins around a tank |
+| [Security camera](Content/Python/unrealpy/examples/security_camera/README.md) | OpenCV | A camera in the level watches the room through OpenCV: motion detection, tracking, an alarm |
+| [Enemies that learn](Content/Python/unrealpy/examples/learning_enemies/README.md) | PyTorch | Drones trained by a small network while you play: within a minute they dodge |
+| [Live playtest analytics](Content/Python/unrealpy/examples/live_analytics/README.md) | pandas + matplotlib + NumPy | Autopiloted playtesters run a level; heatmaps and charts show where they walk and die |
+| [GPU fluid](Content/Python/unrealpy/examples/fluid/README.md) | NVIDIA Warp | A fluid simulated by Python GPU kernels, pushing mannequins around a tank |
 
 | OpenCV | PyTorch |
 |---|---|
@@ -39,13 +39,14 @@ If you change `pyproject.toml` or `uv.lock`, run the group sync again.
 
 For headless setup and packaging, [install the command from your copy of UnrealPy](https://unrealpy.canestudios.xyz/docs/reference/cli/#install-the-command). Run `unrealpy env` and `unrealpy stubs` in the project folder if you want to set it up without opening the editor.
 
-UnrealPy imports the `examples` package from `Content/Python/gameplay`. Run `unrealpy env` to refresh
-an existing project environment so the command-line examples use that path too.
+The project's `Content/Python/unrealpy` folder holds the Python that UnrealPy runs and ships, including the
+`examples` package. Run `unrealpy env` to refresh an existing project environment so the command-line
+examples use that path too.
 The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
 (`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
 turns on Lumen and the mesh distance fields it traces; `Config/DefaultGame.ini` cooks the folders the examples
 fill at their first run: Epic's mannequins, copied from the engine's own third-person template
-(`Content/Python/gameplay/examples/mannequins.py`; the repository ships no Unreal assets), and the fluid's materials
+(`Content/Python/unrealpy/examples/mannequins.py`; the repository ships no Unreal assets), and the fluid's materials
 (`Content/Python/editor/fluid_assets.py`).
 
 ## Run an example

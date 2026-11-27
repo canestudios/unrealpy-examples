@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Content/Python/gameplay is on the project environment's path
+from examples import showreel  # Content/Python/unrealpy is on the project environment's path
 
 
 def main(argv: list[str] | None = None) -> int:

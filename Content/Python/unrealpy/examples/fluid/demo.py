@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Content/Python/gameplay is on the project environment's path
+from examples import showreel  # Content/Python/unrealpy is on the project environment's path
 
 HERE = Path(__file__).resolve().parent
 CARD_SECONDS = 3
