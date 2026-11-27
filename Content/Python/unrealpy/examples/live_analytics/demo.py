@@ -1,6 +1,6 @@
 """The whole example in one command, from the project folder:
 
-    uv run python Python/examples/live_analytics/demo.py [--packaged] [--clip SECONDS]
+    uv run python -m examples.live_analytics.demo [--packaged] [--clip SECONDS]
 
 1. a headless editor (UnrealEditor-Cmd, rendering offscreen, no window) starts Play In Editor with
    AnalyticsMode, lets the first playtesters get going, then shoots the clip frame by frame through a
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Python/ is on the project environment's path
+from examples import showreel  # Content/Python/unrealpy is on the project environment's path
 
 BANNER = "Live playtest analytics: pandas + matplotlib + NumPy inside the game"
 

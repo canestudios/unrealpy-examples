@@ -1,6 +1,6 @@
 """The whole example in one command, from the project folder:
 
-    uv run python Python/examples/security_camera/demo.py [--packaged] [--clip SECONDS]
+    uv run python -m examples.security_camera.demo [--packaged] [--clip SECONDS]
 
 1. a headless editor (UnrealEditor-Cmd, rendering offscreen, no window) starts Play In Editor with
    SecurityMode, lets the mannequins walk their rounds, measures the frame time and the
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Python/ is on the project environment's path
+from examples import showreel  # Content/Python/unrealpy is on the project environment's path
 
 
 def main(argv: list[str] | None = None) -> int:

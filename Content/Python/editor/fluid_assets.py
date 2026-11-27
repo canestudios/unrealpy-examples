@@ -3,7 +3,7 @@ spray above it) and the linear texture their parameters default to.
 
 Run once in the editor (demo.py does it when the asset is missing):
 
-    unrealpy run --editor examples.fluid.assets:main
+    unrealpy run --editor Content/Python/editor/fluid_assets.py:main
 
 The repository ships no Unreal assets: the material is made from engine expressions with
 MaterialEditingLibrary into Content/Fluid (Config/DefaultGame.ini cooks that folder).

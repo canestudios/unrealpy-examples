@@ -4,10 +4,10 @@ Four Unreal scenes use Python packages during gameplay. Run them in the editor o
 
 | Example | Python package | What it does |
 |---|---|---|
-| [Security camera](Python/examples/security_camera/README.md) | OpenCV | A camera in the level watches the room through OpenCV: motion detection, tracking, an alarm |
-| [Enemies that learn](Python/examples/learning_enemies/README.md) | PyTorch | Drones trained by a small network while you play: within a minute they dodge |
-| [Live playtest analytics](Python/examples/live_analytics/README.md) | pandas + matplotlib + NumPy | Autopiloted playtesters run a level; heatmaps and charts show where they walk and die |
-| [GPU fluid](Python/examples/fluid/README.md) | NVIDIA Warp | A fluid simulated by Python GPU kernels, pushing mannequins around a tank |
+| [Security camera](Content/Python/unrealpy/examples/security_camera/README.md) | OpenCV | A camera in the level watches the room through OpenCV: motion detection, tracking, an alarm |
+| [Enemies that learn](Content/Python/unrealpy/examples/learning_enemies/README.md) | PyTorch | Drones trained by a small network while you play: within a minute they dodge |
+| [Live playtest analytics](Content/Python/unrealpy/examples/live_analytics/README.md) | pandas + matplotlib + NumPy | Autopiloted playtesters run a level; heatmaps and charts show where they walk and die |
+| [GPU fluid](Content/Python/unrealpy/examples/fluid/README.md) | NVIDIA Warp | A fluid simulated by Python GPU kernels, pushing mannequins around a tank |
 
 | OpenCV | PyTorch |
 |---|---|
@@ -39,12 +39,15 @@ If you change `pyproject.toml` or `uv.lock`, run the group sync again.
 
 For headless setup and packaging, [install the command from your copy of UnrealPy](https://unrealpy.canestudios.xyz/docs/reference/cli/#install-the-command). Run `unrealpy env` and `unrealpy stubs` in the project folder if you want to set it up without opening the editor.
 
+The project's `Content/Python/unrealpy` folder holds the Python that UnrealPy runs and ships, including the
+`examples` package. Run `unrealpy env` to refresh an existing project environment so the command-line
+examples use that path too.
 The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
 (`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
 turns on Lumen and the mesh distance fields it traces; `Config/DefaultGame.ini` cooks the folders the examples
 fill at their first run: Epic's mannequins, copied from the engine's own third-person template
-(`Python/examples/mannequins.py`; the repository ships no Unreal assets), and the fluid's materials
-(`Python/examples/fluid/assets.py`).
+(`Content/Python/unrealpy/examples/mannequins.py`; the repository ships no Unreal assets), and the fluid's materials
+(`Content/Python/editor/fluid_assets.py`).
 
 ## Run an example
 
@@ -64,20 +67,20 @@ editor=<UE>/Engine/Binaries/Linux/UnrealEditor
 "$editor" "$PWD/UnrealPyExamples.uproject" -game -windowed -UnrealPyRun=examples.security_camera.game:play -UnrealPyKeepAlive
 ```
 
-For another scene, replace `security_camera` with its folder name and sync its dependency group. Before playing the fluid scene for the first time, run `unrealpy run --editor examples.fluid.assets:main` to create its materials.
+For another scene, replace `security_camera` with its folder name and sync its dependency group. Before playing the fluid scene for the first time, run `unrealpy run --editor Content/Python/editor/fluid_assets.py:main` to create its materials.
 
 **Record it.** Each example has one command that plays it in a headless editor (no window) and saves a clip and
 a screenshot under `Saved/`, from the project folder:
 
-    uv run --no-sync python Python/examples/security_camera/demo.py
-    uv run --no-sync python Python/examples/learning_enemies/demo.py
-    uv run --no-sync python Python/examples/live_analytics/demo.py
-    uv run --no-sync python Python/examples/fluid/demo.py
+    uv run --no-sync python -m examples.security_camera.demo
+    uv run --no-sync python -m examples.learning_enemies.demo
+    uv run --no-sync python -m examples.live_analytics.demo
+    uv run --no-sync python -m examples.fluid.demo
 
 and the same in a packaged Development build, after packaging with the example's group:
 
     unrealpy package --group vision
-    uv run --no-sync python Python/examples/security_camera/demo.py --packaged
+    uv run --no-sync python -m examples.security_camera.demo --packaged
 
 The recording scripts use the `media` group for title cards and download FFmpeg on demand. If the plugin is installed inside the project, they can also find its CLI there.
 

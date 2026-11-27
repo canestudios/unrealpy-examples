@@ -1,6 +1,6 @@
 """The whole example in one command, from the project folder:
 
-    uv run python Python/examples/learning_enemies/demo.py [--packaged] [--clip SECONDS] [--speed X]
+    uv run python -m examples.learning_enemies.demo [--packaged] [--clip SECONDS] [--speed X]
 
 1. a headless editor (UnrealEditor-Cmd, rendering offscreen, no window) starts Play In Editor with
    LearningMode and shoots the clip from the first second, untrained drones included, `--speed` times
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from examples import showreel  # Python/ is on the project environment's path
+from examples import showreel  # Content/Python/unrealpy is on the project environment's path
 
 
 def main(argv: list[str] | None = None) -> int:

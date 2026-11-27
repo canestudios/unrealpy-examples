@@ -4,7 +4,7 @@ OpenCV running **inside the game**, in gameplay code written with UnrealPy. Not 
 mode, the actors and the vision pipeline are Python classes that run in Play In Editor and in a packaged
 Development build.
 
-![The room at dusk: mannequins on their rounds, the searchlight on the tracked one, red laser tripwires, the beacon, the monitor with OpenCV's boxes](../../../docs/images/security_camera_demo.jpg)
+![The room at dusk: mannequins on their rounds, the searchlight on the tracked one, red laser tripwires, the beacon, the monitor with OpenCV's boxes](../../../../../docs/images/security_camera_demo.jpg)
 
 *`demo.py --packaged`: the last frame of the run, 1920x1080.*
 
@@ -63,7 +63,7 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group vision --group media
-    uv run --no-sync python Python/examples/security_camera/demo.py
+    uv run --no-sync python -m examples.security_camera.demo
 
 It copies the mannequins on first run, starts a headless editor (no window, rendering offscreen) with
 Lumen, enters **Play In Editor** with `SecurityMode`, lets it run a few seconds, then shoots a 12 s clip (the game steps exactly 1/30 s per
@@ -73,7 +73,7 @@ frame, so the clip plays at real speed). ffmpeg (from the
 
 The packaged game (see below) runs the same scenario:
 
-    uv run --no-sync python Python/examples/security_camera/demo.py --packaged
+    uv run --no-sync python -m examples.security_camera.demo --packaged
 
 Watch it in a window (WASD and the mouse fly the spectator):
 
