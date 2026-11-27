@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
+from subprocess import CompletedProcess
 
 import numpy as np
 import pytest
@@ -14,6 +15,21 @@ warp = pytest.importorskip("warp")
 from examples.fluid import demo, sim  # noqa: E402
 
 CACHE = Path(__file__).resolve().parents[2] / "Intermediate" / "WarpCache"
+
+
+def test_material_builder_runs_by_editor_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    target = "Content/Python/editor/fluid_assets.py"
+    project = Path(__file__).resolve().parents[2]
+    assert (project / target).is_file()
+
+    def run(command: list[str], **kwargs: object) -> CompletedProcess[str]:
+        assert command == ["unrealpy", "run", "--editor", f"{target}:main"]
+        assert kwargs["cwd"] == tmp_path
+        return CompletedProcess(command, 0)
+
+    monkeypatch.setattr(demo.showreel, "unrealpy", lambda _project: ["unrealpy"])
+    monkeypatch.setattr(demo.subprocess, "run", run)
+    demo.ensure_assets(tmp_path)
 
 
 @pytest.fixture(scope="module")

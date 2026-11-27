@@ -73,7 +73,7 @@ The particles are never drawn one by one, and they never go through a list of Py
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group fluid --group media
-    uv run --no-sync python Content/Python/gameplay/examples/fluid/demo.py
+    uv run --no-sync python -m examples.fluid.demo
 
 It builds the materials if the project lacks them, copies the mannequins from the engine's template if needed
 (see `examples/mannequins.py`), starts a headless editor (no window, rendering offscreen) with Lumen, enters
@@ -83,7 +83,7 @@ with the `lambdas` kernel's source, then the clip with a one-line banner, and a 
 packaged game runs the same scenario at 1920x1080:
 
     unrealpy package --group fluid
-    uv run --no-sync python Content/Python/gameplay/examples/fluid/demo.py --packaged
+    uv run --no-sync python -m examples.fluid.demo --packaged
 
 ## Packaging
 

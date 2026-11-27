@@ -63,7 +63,7 @@ size (1274x682 in the headless editor), because `HighResShot` stops the play wor
 From the project folder, install the scene and recording dependencies:
 
     uv sync --locked --group learning --group media
-    uv run --no-sync python Content/Python/gameplay/examples/learning_enemies/demo.py
+    uv run --no-sync python -m examples.learning_enemies.demo
 
 It copies the mannequins on first run, starts a headless editor (no window, rendering offscreen) with
 Lumen, enters **Play In Editor** with `LearningMode`, and shoots the clip from the first second: 15 s at 30 fps as a 3x time-lapse
@@ -73,7 +73,7 @@ JPEG of the last frame. `--speed 1` records in real time.
 
 The packaged game (see below) runs the same scenario:
 
-    uv run --no-sync python Content/Python/gameplay/examples/learning_enemies/demo.py --packaged
+    uv run --no-sync python -m examples.learning_enemies.demo --packaged
 
 To watch it in a window:
 

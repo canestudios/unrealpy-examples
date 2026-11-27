@@ -39,7 +39,8 @@ If you change `pyproject.toml` or `uv.lock`, run the group sync again.
 
 For headless setup and packaging, [install the command from your copy of UnrealPy](https://unrealpy.canestudios.xyz/docs/reference/cli/#install-the-command). Run `unrealpy env` and `unrealpy stubs` in the project folder if you want to set it up without opening the editor.
 
-UnrealPy imports the `examples` package from `Content/Python/gameplay`.
+UnrealPy imports the `examples` package from `Content/Python/gameplay`. Run `unrealpy env` to refresh
+an existing project environment so the command-line examples use that path too.
 The project's configuration does the rest: `Config/DefaultUnrealPy.ini` loads the examples' classes
 (`+ClassPackages=examples`) and ships the fluid's kernels as source (Warp reads them); `Config/DefaultEngine.ini`
 turns on Lumen and the mesh distance fields it traces; `Config/DefaultGame.ini` cooks the folders the examples
@@ -70,15 +71,15 @@ For another scene, replace `security_camera` with its folder name and sync its d
 **Record it.** Each example has one command that plays it in a headless editor (no window) and saves a clip and
 a screenshot under `Saved/`, from the project folder:
 
-    uv run --no-sync python Content/Python/gameplay/examples/security_camera/demo.py
-    uv run --no-sync python Content/Python/gameplay/examples/learning_enemies/demo.py
-    uv run --no-sync python Content/Python/gameplay/examples/live_analytics/demo.py
-    uv run --no-sync python Content/Python/gameplay/examples/fluid/demo.py
+    uv run --no-sync python -m examples.security_camera.demo
+    uv run --no-sync python -m examples.learning_enemies.demo
+    uv run --no-sync python -m examples.live_analytics.demo
+    uv run --no-sync python -m examples.fluid.demo
 
 and the same in a packaged Development build, after packaging with the example's group:
 
     unrealpy package --group vision
-    uv run --no-sync python Content/Python/gameplay/examples/security_camera/demo.py --packaged
+    uv run --no-sync python -m examples.security_camera.demo --packaged
 
 The recording scripts use the `media` group for title cards and download FFmpeg on demand. If the plugin is installed inside the project, they can also find its CLI there.
 
